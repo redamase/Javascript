@@ -1,0 +1,24 @@
+<!-- @format -->
+
+<script>
+	const getSuma = () => {
+		let hora = 23;
+		let minutos = 50;
+		let segundos = 00;
+
+		let minSuma = 60;
+		let nMinutos = 0;
+		nMinutos = minutos + minSuma;
+		nHoras = Math.floor(nMinutos / 60);
+		nMinutos = nMinutos % 60;
+		nHoras = hora + nHoras;
+		// if (nHoras >= 24) {
+		// 	console.log(nHoras);
+		// 	nHoras = 00;
+		// }
+		console.log(
+			`La hora es: ${nHoras} con ${nMinutos} minutos y ${segundos} segundos`
+		);
+	};
+	document.addEventListener("DOMContentLoaded", getSuma());
+</script>

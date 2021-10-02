@@ -1,0 +1,60 @@
+<!-- @format -->
+
+<!DOCTYPE html>
+<html lang="es">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Incluir HTML con AJAX</title>
+		<link rel="stylesheet" href="style.css" />
+		<script src="assets/include-html.js"></script>
+	</head>
+	<body>
+		<div data-include="assets/header.html"></div>
+		<main class="container"></main>
+		<div data-include="assets/footer.html"></div>
+		<script>
+			const d = document,
+				$main = d.querySelector("main");
+
+			const getHTML = (options) => {
+				let { url, success, error } = options;
+				const xhr = new XMLHttpRequest();
+
+				xhr.addEventListener("readystatechange", (e) => {
+					if (xhr.readyState !== 4) return;
+
+					if (xhr.status >= 200 && xhr.status < 300) {
+						let html = xhr.responseText;
+					} else {
+						let msg = xhr.statusText || "Ocurrió un error";
+						error(`Error ${xhr.status}: ${msg}`);
+					}
+				});
+
+				xhr.open("GET", url);
+				xhr.setRequestHeader("Content-type", "text/html; charset=utf-8");
+				xhr.send();
+			};
+			d.addEventListener("DOMContentLoaded", (e) => {
+				getHTML({
+					url: "assets/home.html",
+					success: (html) => ($main.innerHTML = html),
+					error: (error) => ($main.innerHTML = `<h1>${error}</h1>`),
+				});
+			});
+
+			d.addEventListener("click", (e) => {
+				if (e.target.matches(".menu a")) {
+					e.preventDefault();
+					getHTML({
+						url: e.target.href,
+						success: (html) => ($main.innerHTML = html),
+						error: (error) => ($main.innerHTML = `<h1>${error}</h1>`),
+					});
+				}
+			});
+		</script>
+	</body>
+</html>
